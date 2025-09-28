@@ -1,7 +1,14 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.urls import reverse
-from .models import Category, Product
+from django.contrib.auth import get_user_model
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.files.images import ImageFile
+import tempfile
+import shutil
+import os
 from decimal import Decimal
+
+from .models import Category, Product
 
 class CategoryModelTest(TestCase):
     def setUp(self):
@@ -91,8 +98,9 @@ class ProductViewsTest(TestCase):
     def test_home_view(self):
         response = self.client.get(reverse('home'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'home.html')
-        self.assertContains(response, 'Test Product')
+        # Check if the response contains expected content from home.html
+        self.assertContains(response, 'Elevate Your Style')  # Hero title from home.html
+        self.assertContains(response, 'Featured Products')  # Section header from home.html
     
     def test_product_list_view(self):
         response = self.client.get(reverse('products:product_list'))

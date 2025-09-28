@@ -28,7 +28,7 @@ urlpatterns = [
     path('cart/', include('cart.urls')),
     path('orders/', include('orders.urls')),
     path('users/', include('users.urls')),
-    path('', include('pages.urls')),  # Include pages URLs at the root
+    path('pages/', include('pages.urls')),
 ]
 
 if settings.DEBUG:

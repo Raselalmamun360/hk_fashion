@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us - HK Fashion{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h1 class="mb-4">About HK Fashion</h1>
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <h2 class="h4 mb-3">Our Story</h2>
+                    <p class="lead">Welcome to HK Fashion, where style meets comfort and quality.</p>
+                    <p>Founded in 2023, HK Fashion has been dedicated to bringing you the latest trends in fashion at affordable prices. Our mission is to make high-quality, stylish clothing accessible to everyone.</p>
+                    
+                    <h2 class="h4 mt-4 mb-3">Our Values</h2>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="d-flex">
+                                <div class="me-3 text-primary">
+                                    <i class="fas fa-tshirt fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h3 class="h5">Quality Materials</h3>
+                                    <p class="mb-0">We source only the finest materials for our clothing to ensure comfort and durability.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex">
+                                <div class="me-3 text-primary">
+                                    <i class="fas fa-heart fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h3 class="h5">Customer Satisfaction</h3>
+                                    <p class="mb-0">Your satisfaction is our top priority. We're here to make sure you love every purchase.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex">
+                                <div class="me-3 text-primary">
+                                    <i class="fas fa-leaf fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h3 class="h5">Sustainability</h3>
+                                    <p class="mb-0">We're committed to sustainable and ethical fashion practices.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex">
+                                <div class="me-3 text-primary">
+                                    <i class="fas fa-truck fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h3 class="h5">Fast Shipping</h3>
+                                    <p class="mb-0">Quick and reliable delivery to your doorstep.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="h4 mt-5 mb-3">Our Team</h2>
+                    <p>Behind HK Fashion is a team of passionate individuals dedicated to bringing you the best in fashion. From our designers to our customer service representatives, everyone at HK Fashion is committed to excellence.</p>
+                    
+                    <h2 class="h4 mt-4 mb-3">Visit Us</h2>
+                    <p>We'd love to see you in person! Visit our flagship store at:</p>
+                    <address class="mb-4">
+                        <strong>HK Fashion Store</strong><br>
+                        123 Fashion Street<br>
+                        Dhaka, 1212<br>
+                        Bangladesh
+                    </address>
+                    
+                    <div class="mt-4">
+                        <a href="{% url 'contact' %}" class="btn btn-primary me-2">Contact Us</a>
+                        <a href="{% url 'products:product_list' %}" class="btn btn-outline-primary">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

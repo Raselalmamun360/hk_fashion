@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout | HK Fashion{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Checkout</h1>
+    
+    <div class="row">
+        <!-- Order Form -->
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Shipping Information</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="{{ form.first_name.id_for_label }}" class="form-label">First Name</label>
+                                {{ form.first_name }}
+                                {% if form.first_name.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.first_name.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="{{ form.last_name.id_for_label }}" class="form-label">Last Name</label>
+                                {{ form.last_name }}
+                                {% if form.last_name.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.last_name.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-12">
+                                <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.email.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-12">
+                                <label for="{{ form.address.id_for_label }}" class="form-label">Address</label>
+                                {{ form.address }}
+                                {% if form.address.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.address.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="{{ form.postal_code.id_for_label }}" class="form-label">Postal Code</label>
+                                {{ form.postal_code }}
+                                {% if form.postal_code.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.postal_code.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="{{ form.city.id_for_label }}" class="form-label">City</label>
+                                {{ form.city }}
+                                {% if form.city.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.city.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-12">
+                                <label for="{{ form.note.id_for_label }}" class="form-label">Order Notes (Optional)</label>
+                                {{ form.note }}
+                            </div>
+                        </div>
+                        
+                        <hr class="my-4">
+                        
+                        <h4 class="mb-3">Payment Method</h4>
+                        
+                        <div class="form-check">
+                            <input id="cashOnDelivery" name="paymentMethod" type="radio" class="form-check-input" checked required>
+                            <label class="form-check-label" for="cashOnDelivery">Cash on Delivery</label>
+                            <small class="text-muted d-block">Pay with cash upon delivery of your order.</small>
+                        </div>
+                        
+                        <hr class="my-4">
+                        
+                        <button class="btn btn-primary btn-lg w-100" type="submit">Place Order</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Order Summary -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Order Summary</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {% for item in cart %}
+                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                    <h6 class="my-0">{{ item.product.name }}</h6>
+                                    <small class="text-muted">Quantity: {{ item.quantity }}</small>
+                                    {% if item.product.is_preorder %}
+                                        <span class="badge bg-warning">Pre-Order</span>
+                                    {% endif %}
+                                </div>
+                                <span class="text-muted">${{ item.total_price }}</span>
+                            </li>
+                        {% endfor %}
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Total</span>
+                            <strong>${{ cart.get_total_price }}</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Need Help?</h5>
+                    <p class="card-text">If you have any questions about your order, please contact our customer service.</p>
+                    <p class="card-text"><strong>Email:</strong> support@hkfashion.com</p>
+                    <p class="card-text"><strong>Phone:</strong> (123) 456-7890</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add Bootstrap form validation classes to Django form fields
+    document.addEventListener('DOMContentLoaded', function() {
+        const formFields = document.querySelectorAll('form input, form textarea, form select');
+        formFields.forEach(field => {
+            field.classList.add('form-control');
+        });
+    });
+</script>
+{% endblock %}
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Shopping Cart | HK Fashion{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Your Shopping Cart</h1>
+    
+    {% if cart|length > 0 %}
+        <div class="table-responsive mb-4">
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Price</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart %}
+                        {% with product=item.product %}
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="d-flex align-items-center">
+                                        {% if product.image %}
+                                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-thumbnail me-3" style="max-width: 80px;">
+                                        {% else %}
+                                            <img src="https://via.placeholder.com/80x80?text=No+Image" alt="No Image" class="img-thumbnail me-3">
+                                        {% endif %}
+                                        <div>
+                                            <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+                                            {% if product.is_preorder %}
+                                                <span class="badge bg-warning ms-2">Pre-Order</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <form action="{% url 'cart:cart_add' product.id %}" method="post" class="d-flex align-items-center">
+                                        {% csrf_token %}
+                                        {{ item.update_quantity_form.quantity }}
+                                        {{ item.update_quantity_form.override }}
+                                        <button type="submit" class="btn btn-sm btn-outline-secondary ms-2">Update</button>
+                                    </form>
+                                </td>
+                                <td class="align-middle">${{ item.price }}</td>
+                                <td class="align-middle">${{ item.total_price }}</td>
+                                <td class="align-middle text-center">
+                                    <a href="{% url 'cart:cart_remove' product.id %}" class="btn btn-sm btn-danger">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                        </svg>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endwith %}
+                    {% endfor %}
+                    <tr class="table-primary">
+                        <td colspan="3" class="text-end"><strong>Total</strong></td>
+                        <td><strong>${{ cart.get_total_price }}</strong></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'products:product_list' %}" class="btn btn-outline-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                </svg>
+                Continue Shopping
+            </a>
+            <a href="{% url 'orders:order_create' %}" class="btn btn-success">
+                Proceed to Checkout
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                </svg>
+            </a>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <h4 class="alert-heading">Your cart is empty!</h4>
+            <p>You haven't added any products to your cart yet.</p>
+            <hr>
+            <p class="mb-0">
+                <a href="{% url 'products:product_list' %}" class="btn btn-primary">Start Shopping</a>
+            </p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>

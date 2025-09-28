@@ -1,0 +1,258 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if page.meta_title %}{{ page.meta_title }}{% else %}{{ page.title }} - {{ site_name }}{% endif %}{% endblock %}
+
+{% block meta_description %}{{ page.meta_description }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ page.title }}</li>
+        </ol>
+    </nav>
+    
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h1 class="mb-4">{{ page.title }}</h1>
+                    <div class="page-content">
+                        {{ page.content|safe }}
+                    </div>
+                    
+                    {% if page.slug == 'about' %}
+                    <!-- Team Section -->
+                    <div class="mt-5 pt-4 border-top">
+                        <h2 class="h4 mb-4">Meet Our Team</h2>
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <div class="text-center">
+                                    <div class="rounded-circle overflow-hidden mb-3 mx-auto" style="width: 150px; height: 150px;">
+                                        <img src="{% static 'img/team-1.jpg' %}" 
+                                             alt="Team Member" 
+                                             class="img-fluid"
+                                             onerror="this.onerror=null; this.src='https://via.placeholder.com/150';">
+                                    </div>
+                                    <h5 class="h6 mb-1">John Doe</h5>
+                                    <p class="text-muted small mb-2">Founder & CEO</p>
+                                    <div class="d-flex justify-content-center">
+                                        <a href="#" class="text-primary me-2"><i class="fab fa-linkedin"></i></a>
+                                        <a href="#" class="text-primary me-2"><i class="fab fa-twitter"></i></a>
+                                        <a href="#" class="text-primary"><i class="fas fa-envelope"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Add more team members as needed -->
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if page.slug == 'contact' %}
+                    <!-- Contact Form Section -->
+                    <div class="mt-5 pt-4 border-top">
+                        <h2 class="h4 mb-4">Send Us a Message</h2>
+                        <form method="post" action="{% url 'pages:contact' %}" class="needs-validation" novalidate>
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="name" class="form-label">Your Name *</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                    <div class="invalid-feedback">
+                                        Please enter your name.
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">Email Address *</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                    <div class="invalid-feedback">
+                                        Please enter a valid email address.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subject *</label>
+                                <input type="text" class="form-control" id="subject" name="subject" required>
+                                <div class="invalid-feedback">
+                                    Please enter a subject.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Your Message *</label>
+                                <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                                <div class="invalid-feedback">
+                                    Please enter your message.
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if page.slug == 'about' %}
+<!-- Testimonials Section -->
+<section class="bg-light py-5 my-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="h3">What Our Customers Say</h2>
+            <p class="text-muted">Don't just take our word for it - hear from our satisfied customers</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-3">
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                        </div>
+                        <p class="card-text mb-4">"I love shopping at HK Fashion! The quality of their clothes is amazing and the prices are very reasonable."</p>
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                                <img src="{% static 'img/avatar-1.jpg' %}" 
+                                     alt="Customer" 
+                                     class="rounded-circle" 
+                                     width="50"
+                                     onerror="this.onerror=null; this.src='https://via.placeholder.com/50';">
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-0">Sarah Johnson</h6>
+                                <small class="text-muted">Regular Customer</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Add more testimonials as needed -->
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if page.slug == 'contact' %}
+<!-- Map Section -->
+<div class="container mb-5">
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="ratio ratio-16x9">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.837240932881!2d90.40665931445606!3d23.78886845365477!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c7a0f70ded3f%3A0x1dc3ab0a2a3a8f7c!2sGulshan%201%2C%20Dhaka%201212!5e0!3m2!1sen!2sbd!4v1620000000000!5m2!1sen!2sbd" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy"
+                    title="Our Location">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<style>
+    /* Custom styles for the page */
+    .page-content {
+        line-height: 1.8;
+    }
+    
+    .page-content img {
+        max-width: 100%;
+        height: auto;
+        margin: 1.5rem 0;
+        border-radius: 8px;
+    }
+    
+    .page-content h2 {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        color: #2c3e50;
+    }
+    
+    .page-content h3 {
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+        color: #2c3e50;
+    }
+    
+    .page-content p {
+        margin-bottom: 1rem;
+    }
+    
+    .page-content ul, 
+    .page-content ol {
+        margin-bottom: 1.5rem;
+        padding-left: 1.5rem;
+    }
+    
+    .page-content li {
+        margin-bottom: 0.5rem;
+    }
+    
+    .page-content a {
+        color: #e74c3c;
+        text-decoration: none;
+    }
+    
+    .page-content a:hover {
+        text-decoration: underline;
+    }
+    
+    /* Testimonial card hover effect */
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    /* Form styles */
+    .form-control:focus {
+        border-color: #e74c3c;
+        box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.15);
+    }
+    
+    .btn-primary {
+        background-color: #e74c3c;
+        border-color: #e74c3c;
+    }
+    
+    .btn-primary:hover {
+        background-color: #c0392b;
+        border-color: #c0392b;
+    }
+</style>
+
+{% if page.slug == 'contact' %}
+<script>
+    // Form validation
+    (function () {
+        'use strict'
+        
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+        
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
+{% endif %}
+{% endblock %}

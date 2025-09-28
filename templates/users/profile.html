@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block title %}My Profile | HK Fashion{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">My Profile</h1>
+    
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Account Information</h4>
+                </div>
+                <div class="card-body">
+                    <p><strong>Username:</strong> {{ user.username }}</p>
+                    <p><strong>Date Joined:</strong> {{ user.date_joined|date:"F j, Y" }}</p>
+                    <p><strong>Last Login:</strong> {{ user.last_login|date:"F j, Y, g:i a" }}</p>
+                    
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'orders:order_history' %}" class="btn btn-outline-primary">View My Orders</a>
+                        <a href="{% url 'logout' %}" class="btn btn-outline-danger">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Edit Profile</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        
+                        <h5 class="mb-3">Personal Information</h5>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="{{ u_form.first_name.id_for_label }}" class="form-label">First Name</label>
+                                {{ u_form.first_name }}
+                                {% if u_form.first_name.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ u_form.first_name.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="{{ u_form.last_name.id_for_label }}" class="form-label">Last Name</label>
+                                {{ u_form.last_name }}
+                                {% if u_form.last_name.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ u_form.last_name.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ u_form.email.id_for_label }}" class="form-label">Email</label>
+                            {{ u_form.email }}
+                            {% if u_form.email.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ u_form.email.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <hr>
+                        
+                        <h5 class="mb-3">Contact Information</h5>
+                        
+                        <div class="mb-3">
+                            <label for="{{ p_form.phone_number.id_for_label }}" class="form-label">Phone Number</label>
+                            {{ p_form.phone_number }}
+                            {% if p_form.phone_number.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ p_form.phone_number.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ p_form.address.id_for_label }}" class="form-label">Address</label>
+                            {{ p_form.address }}
+                            {% if p_form.address.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ p_form.address.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="{{ p_form.city.id_for_label }}" class="form-label">City</label>
+                                {{ p_form.city }}
+                                {% if p_form.city.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ p_form.city.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="{{ p_form.postal_code.id_for_label }}" class="form-label">Postal Code</label>
+                                {{ p_form.postal_code }}
+                                {% if p_form.postal_code.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ p_form.postal_code.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add Bootstrap form validation classes to Django form fields
+    document.addEventListener('DOMContentLoaded', function() {
+        const formFields = document.querySelectorAll('form input, form textarea, form select');
+        formFields.forEach(field => {
+            field.classList.add('form-control');
+        });
+    });
+</script>
+{% endblock %}
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>

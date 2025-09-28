@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}HK Fashion | Premium Clothing & Accessories{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e74c3c;
+            --accent-color: #3498db;
+            --light-color: #f8f9fa;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --text-light: #6c757d;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        h1, h2, h3, h4, h5, h6, .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            padding: 0.8rem 0;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .navbar.scrolled {
+            padding: 0.5rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.98) !important;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+        
+        .navbar-brand {
+            font-size: 1.8rem;
+            color: var(--primary-color) !important;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            margin-right: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .navbar-brand:hover {
+            transform: translateY(-1px);
+        }
+        
+        .navbar-brand span {
+            position: relative;
+            z-index: 1;
+            transition: color 0.3s ease;
+        }
+        
+        .navbar-brand::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #e74c3c, #3498db);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+        
+        .navbar-brand:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: var(--dark-color) !important;
+            margin: 0 0.5rem;
+            position: relative;
+            padding: 0.5rem 0.8rem !important;
+            border-radius: 6px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .nav-link i {
+            margin-right: 0.3rem;
+            font-size: 1.1em;
+            vertical-align: middle;
+        }
+        
+        .nav-link:not(.dropdown-toggle)::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0.8rem;
+            right: 0.8rem;
+            background: linear-gradient(90deg, #e74c3c, #3498db);
+            transition: width 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            margin: 0 auto;
+        }
+        
+        .nav-link:hover {
+            color: var(--secondary-color) !important;
+            background: rgba(231, 76, 60, 0.05);
+            transform: translateY(-1px);
+        }
+        
+        .nav-link:hover::after {
+            width: calc(100% - 1.6rem);
+            opacity: 1;
+        }
+        
+        .nav-item.active .nav-link {
+            color: var(--secondary-color) !important;
+            font-weight: 600;
+        }
+        
+        .nav-item.active .nav-link::after {
+            width: calc(100% - 1.6rem);
+            opacity: 1;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1a252f;
+            border-color: #1a252f;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .product-card {
+            height: 100%;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            background: #fff;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .product-card .card-img-top {
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .product-card:hover .card-img-top {
+            transform: scale(1.03);
+        }
+        
+        .pre-order-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 10;
+            font-size: 0.8rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 50px;
+            font-weight: 600;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+        }
+        
+        footer {
+            margin-top: auto;
+            padding: 3rem 0 1.5rem;
+            background-color: var(--dark-color);
+            color: #fff;
+        }
+        
+        footer h5 {
+            color: #fff;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        footer h5:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 50px;
+            height: 2px;
+            background-color: var(--secondary-color);
+        }
+        
+        footer a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        footer a:hover {
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        footer ul li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+        
+        .newsletter-form {
+            display: flex;
+            margin-top: 1.5rem;
+        }
+        
+        .newsletter-form input {
+            border-radius: 50px 0 0 50px;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            width: 70%;
+        }
+        
+        .newsletter-form button {
+            border-radius: 0 50px 50px 0;
+            background-color: var(--secondary-color);
+            border: none;
+            color: white;
+            padding: 0 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .newsletter-form button:hover {
+            background-color: #c0392b;
+        }
+        
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #bdc3c7;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        /* Mobile Search Bar */
+        .mobile-search-container {
+            display: none;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .mobile-search-container.show {
+            display: block;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                background: #fff;
+                padding: 1rem;
+                margin: 1rem -1rem 0;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+            
+            .nav-link {
+                margin: 0.3rem 0;
+                padding: 0.7rem 1rem !important;
+                border-radius: 6px;
+            }
+            
+            .nav-link:hover {
+                background: rgba(231, 76, 60, 0.1);
+            }
+            
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+            
+            .dropdown-menu {
+                box-shadow: none;
+                border: 1px solid rgba(0, 0, 0, 0.05);
+                margin: 0.5rem 0 0.5rem 1rem;
+                padding: 0.3rem 0;
+            }
+        }
+        
+        /* Search input focus effect */
+        .search-input:focus {
+            width: 250px !important;
+            box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.15);
+            border-color: rgba(231, 76, 60, 0.3) !important;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'home' %}">
+                    <span style="color: #e74c3c;">HK</span> Fashion
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}">
+                                <i class="fas fa-home me-1 d-md-none"></i>Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if 'products' in request.path and not 'collections' in request.path and not 'new-arrivals' in request.path %}active{% endif %}" href="{% url 'products:product_list' %}">
+                                <i class="fas fa-shopping-bag me-1 d-md-none"></i>Shop
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if 'new-arrivals' in request.path %}active{% endif %}" href="{% url 'products:product_list' %}?new_arrivals=1">
+                                <i class="fas fa-star me-1 d-md-none"></i>New Arrivals
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {% if 'collections' in request.path %}active{% endif %}" href="#" id="collectionsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-th-large me-1 d-md-none"></i>Collections
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="collectionsDropdown">
+                                {% for category in categories %}
+                                <li><a class="dropdown-item" href="{% url 'products:product_list_by_category' category.slug %}">{{ category.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/about/' or request.path == '/pages/about/' %}active{% endif %}" href="{% url 'pages:about' %}">
+                                <i class="fas fa-info-circle me-1 d-md-none"></i>About
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/contact/' or request.path == '/pages/contact/' %}active{% endif %}" href="{% url 'pages:contact' %}">
+                                <i class="fas fa-envelope me-1 d-md-none"></i>Contact
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav align-items-center">
+                        <!-- Search Bar -->
+                        <li class="nav-item me-3 d-none d-lg-block">
+                            <div class="search-container" style="position: relative;">
+                                <form action="{% url 'products:product_list' %}" method="get" class="d-flex search-form">
+                                    <input type="text" 
+                                           name="q" 
+                                           class="form-control search-input" 
+                                           placeholder="Search products..." 
+                                           value="{{ request.GET.q|default:'' }}" 
+                                           style="width: 200px; border-radius: 50px; padding-left: 15px; transition: all 0.3s ease; border: 1px solid #e0e0e0;" 
+                                           id="searchInput"
+                                           autocomplete="off">
+                                    {% if request.GET.q %}
+                                        <a href="{% url 'products:product_list' %}" class="btn btn-link search-clear" style="position: absolute; right: 35px; top: 50%; transform: translateY(-50%); color: #6c757d; text-decoration: none;">
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                    {% endif %}
+                                    <button type="submit" class="btn btn-link search-btn" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #6c757d; background: none; border: none;">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
+                        
+                        <!-- Shopping Cart -->
+                        <li class="nav-item me-3">
+                            <a class="nav-link position-relative" href="{% url 'cart:cart_detail' %}" title="Cart">
+                                <i class="fas fa-shopping-cart fa-lg"></i>
+                                {% with total_items=cart|length %}
+                                    {% if total_items > 0 %}
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            {{ total_items }}
+                                        </span>
+                                    {% endif %}
+                                {% endwith %}
+                            </a>
+                        </li>
+                        
+                        <!-- Mobile Search Toggle -->
+                        <li class="nav-item d-lg-none">
+                            <a class="nav-link" href="#" id="mobileSearchToggle" title="Search">
+                                <i class="fas fa-search fa-lg"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown ms-3">
+                            {% if user.is_authenticated %}
+                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user-circle fa-lg me-1"></i>
+                                    <span class="d-none d-md-inline">{{ user.username }}</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user me-2"></i>My Profile</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'orders:order_history' %}"><i class="fas fa-box me-2"></i>My Orders</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-heart me-2"></i>Wishlist</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-danger" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                                </ul>
+                            {% else %}
+                                <a class="nav-link" href="{% url 'login' %}" title="Login">
+                                    <i class="fas fa-user-circle fa-lg"></i>
+                                    <span class="d-none d-md-inline ms-1">Login</span>
+                                </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container py-4" style="padding-top: 100px !important;">
+        {% if messages %}
+            <div class="messages-container">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <h5>HK Fashion</h5>
+                    <p class="mt-3">Your premier destination for the latest in fashion trends and timeless styles. We bring you quality apparel that combines comfort, style, and sustainability.</p>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5>Shop</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'products:product_list' %}">All Products</a></li>
+                        <li><a href="{% url 'products:product_list' %}?new_arrivals=1">New Arrivals</a></li>
+                        <li><a href="{% url 'products:product_list' %}?sort=-sold">Best Sellers</a></li>
+                        <li><a href="{% url 'products:product_list' %}?sale=1">Sale</a></li>
+                        <li><a href="{% url 'products:product_list' %}?pre_order=1">Pre-Order</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5>Information</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'pages:about' %}">About Us</a></li>
+                        <li><a href="{% url 'pages:page_detail' 'blog' %}">Blog</a></li>
+                        <li><a href="{% url 'pages:page_detail' 'faqs' %}">FAQs</a></li>
+                        <li><a href="{% url 'pages:contact' %}">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h5>Newsletter</h5>
+                    <p>Subscribe to our newsletter for the latest updates, exclusive offers, and style tips.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email address" aria-label="Email address" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                    <div class="mt-4">
+                        <h6>Contact Us</h6>
+                        <address class="mt-2">
+                            <i class="fas fa-map-marker-alt me-2"></i> 123 Fashion Avenue, Style City, SC 12345<br>
+                            <i class="fas fa-phone me-2 mt-2 d-inline-block"></i> <a href="tel:+1234567890" class="d-inline">+1 (234) 567-890</a><br>
+                            <i class="fas fa-envelope me-2 mt-2 d-inline-block"></i> <a href="mailto:info@hkfashion.com" class="d-inline">info@hkfashion.com</a>
+                        </address>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="copyright text-center">
+                        <p class="mb-0">&copy; {% now "Y" %} HK Fashion. All rights reserved. | 
+                        <a href="{% url 'pages:page_detail' 'privacy-policy' %}" class="text-muted">Privacy Policy</a> | 
+                        <a href="{% url 'pages:page_detail' 'terms-conditions' %}" class="text-muted">Terms & Conditions</a> | 
+                        <a href="{% url 'pages:page_detail' 'shipping-returns' %}" class="text-muted">Shipping & Returns</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <!-- Mobile Search Container (initially hidden) -->
+    <div class="mobile-search-container" id="mobileSearchContainer">
+        <form action="{% url 'products:product_list' %}" method="get" class="d-flex">
+            <input type="text" name="q" class="form-control search-input" placeholder="Search products..." style="border-radius: 50px; padding-left: 15px; border: 1px solid #e0e0e0;" id="mobileSearchInput">
+            <button type="submit" class="btn btn-link search-btn" style="position: absolute; right: 25px; color: #6c757d; background: none; border: none;">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+    </div>
+    
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 30) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Mobile search toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileSearchToggle = document.getElementById('mobileSearchToggle');
+            const mobileSearchContainer = document.getElementById('mobileSearchContainer');
+            const mobileSearchInput = document.getElementById('mobileSearchInput');
+            
+            if (mobileSearchToggle) {
+                mobileSearchToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    mobileSearchContainer.classList.toggle('show');
+                    if (mobileSearchContainer.classList.contains('show')) {
+                        setTimeout(() => {
+                            mobileSearchInput.focus();
+                        }, 100);
+                    }
+                });
+            }
+            
+            // Close search when clicking outside
+            document.addEventListener('click', function(e) {
+                if (mobileSearchContainer && mobileSearchToggle && !mobileSearchContainer.contains(e.target) && e.target !== mobileSearchToggle && !mobileSearchToggle.contains(e.target)) {
+                    mobileSearchContainer.classList.remove('show');
+                }
+            });
+            
+            // Handle search form submission
+            const searchForms = document.querySelectorAll('.search-form');
+            searchForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    const searchInput = this.querySelector('input[name="q"]');
+                    if (!searchInput.value.trim()) {
+                        e.preventDefault();
+                    }
+                });
+            });
+            
+            // Clear search
+            const searchClearButtons = document.querySelectorAll('.search-clear');
+            searchClearButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const searchInput = this.closest('form').querySelector('input[name="q"]');
+                    searchInput.value = '';
+                    this.closest('form').submit();
+                });
+            });
+            
+            // Close mobile search when clicking outside
+            document.addEventListener('click', function(e) {
+                if (mobileSearchContainer && mobileSearchToggle) {
+                    if (!mobileSearchContainer.contains(e.target) && e.target !== mobileSearchToggle && !mobileSearchToggle.contains(e.target)) {
+                        mobileSearchContainer.classList.remove('show');
+                    }
+                }
+            });
+            
+            // Add active class to current nav item
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.closest('.nav-item').classList.add('active');
+                }
+            });
+        });
+        
+        // Initialize tooltips
+        document.addEventListener('DOMContentLoaded', function() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+            
+            // Add animation to elements with .fade-in class when they come into view
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            fadeElements.forEach(element => {
+                element.style.opacity = 0;
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                observer.observe(element);
+            });
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

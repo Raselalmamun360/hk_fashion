@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block title %}Order #{{ order.id }} | HK Fashion{% endblock %}
+
+{% block content %}
+<div class="container">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'orders:order_history' %}">My Orders</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Order #{{ order.id }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Order #{{ order.id }}</h4>
+                    <span class="badge {% if order.status == 'pending' %}bg-warning{% elif order.status == 'processing' %}bg-info{% elif order.status == 'shipped' %}bg-primary{% elif order.status == 'delivered' %}bg-success{% elif order.status == 'cancelled' %}bg-danger{% endif %}">
+                        {{ order.get_status_display }}
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <h5>Order Information</h5>
+                            <p><strong>Date:</strong> {{ order.created|date:"F j, Y, g:i a" }}</p>
+                            <p><strong>Last Updated:</strong> {{ order.updated|date:"F j, Y, g:i a" }}</p>
+                            <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Shipping Information</h5>
+                            <p><strong>Name:</strong> {{ order.first_name }} {{ order.last_name }}</p>
+                            <p><strong>Address:</strong> {{ order.address }}</p>
+                            <p><strong>City:</strong> {{ order.city }}, {{ order.postal_code }}</p>
+                            <p><strong>Email:</strong> {{ order.email }}</p>
+                        </div>
+                    </div>
+                    
+                    {% if order.note %}
+                        <div class="alert alert-info">
+                            <h5 class="alert-heading">Order Notes:</h5>
+                            <p>{{ order.note }}</p>
+                        </div>
+                    {% endif %}
+                    
+                    <h5 class="mb-3">Order Items</h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in order.items.all %}
+                                    <tr>
+                                        <td>
+                                            {{ item.product.name }}
+                                            {% if item.is_preorder %}
+                                                <span class="badge bg-warning ms-2">Pre-Order</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>${{ item.price }}</td>
+                                        <td>{{ item.quantity }}</td>
+                                        <td>${{ item.get_cost }}</td>
+                                    </tr>
+                                {% endfor %}
+                                <tr class="table-primary">
+                                    <td colspan="3" class="text-end"><strong>Total</strong></td>
+                                    <td><strong>${{ order.get_total_cost }}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Payment Information</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Payment Method:</strong> Cash on Delivery</p>
+                    <p>Payment will be collected upon delivery of your order.</p>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Order Timeline</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>Order Placed</strong>
+                                <p class="mb-0 text-muted">{{ order.created|date:"M d, Y" }}</p>
+                            </div>
+                            <span class="badge bg-success rounded-pill">✓</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>Processing</strong>
+                                <p class="mb-0 text-muted">Order verification and preparation</p>
+                            </div>
+                            <span class="badge {% if order.status == 'processing' or order.status == 'shipped' or order.status == 'delivered' %}bg-success{% else %}bg-light text-dark{% endif %} rounded-pill">
+                                {% if order.status == 'processing' or order.status == 'shipped' or order.status == 'delivered' %}✓{% else %}...{% endif %}
+                            </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>Shipped</strong>
+                                <p class="mb-0 text-muted">Your order is on the way</p>
+                            </div>
+                            <span class="badge {% if order.status == 'shipped' or order.status == 'delivered' %}bg-success{% else %}bg-light text-dark{% endif %} rounded-pill">
+                                {% if order.status == 'shipped' or order.status == 'delivered' %}✓{% else %}...{% endif %}
+                            </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>Delivered</strong>
+                                <p class="mb-0 text-muted">Order completed</p>
+                            </div>
+                            <span class="badge {% if order.status == 'delivered' %}bg-success{% else %}bg-light text-dark{% endif %} rounded-pill">
+                                {% if order.status == 'delivered' %}✓{% else %}...{% endif %}
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Need Help?</h5>
+                </div>
+                <div class="card-body">
+                    <p>If you have any questions about your order, please contact our customer service.</p>
+                    <p><strong>Email:</strong> support@hkfashion.com</p>
+                    <p><strong>Phone:</strong> (123) 456-7890</p>
+                    <p><strong>Reference:</strong> Order #{{ order.id }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
